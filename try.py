@@ -21,8 +21,13 @@ from langchain_community.chat_message_histories import ChatMessageHistory
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
 
+import streamlit as st 
+
 load_dotenv()
 
+st.set_page_config(page_title="STAN-bot v0.1", page_icon="👨‍💻")
+st.write("i am working on some updates, down for now" 
+"""
 #### PINECONE ####
 pinecone_api_key = os.environ["PINECONE_API_KEY"]
 pinecone_index_name = os.environ["PINECONE_INDEX_NAME"]
@@ -151,4 +156,4 @@ if st.session_state.messages[-1]["role"] != "assistant":
             st.write(f"{ai_response}")
 
     new_ai_message = {"role":"assistant","content": ai_response}
-    st.session_state.messages.append(new_ai_message)
+    st.session_state.messages.append(new_ai_message)"""
