@@ -1,4 +1,5 @@
 import os 
+import nltk
 from dotenv import load_dotenv
 
 from pinecone import Pinecone
@@ -40,7 +41,7 @@ retriever = PineconeHybridSearchRetriever(sparse_encoder=bm25_encoder, embedding
 llm = ChatGroq(
         api_key = os.environ['GROQ_API_KEY'], 
         model_name = "llama-3.1-70b-versatile",
-        temperature = 0.6, 
+        temperature = 0, 
     )
 
 
@@ -69,9 +70,9 @@ with UofT wireless network.
 
 Use the context: {context} as your knowledge base
 to answer the IT questions asked by students, staff and faculty at the University of Toronto.
-Make sure your answer is formatted properly, with proper line breaks.
-Use proper numerations and bullent points also ensure there are line breaks after each bullet point. 
-If the user question is not clear, ask for more details, do not provide a solution for something else."""
+Make sure your answer is formatted properly, with proper line breaks use proper numerations and bullet points.  
+
+."""
 
 qa_prompt = ChatPromptTemplate.from_messages(
     [
@@ -106,14 +107,20 @@ conversational_rag_chain = RunnableWithMessageHistory(
 
 import streamlit as st
 
-st.set_page_config(page_title="Chat Assistant")
+st.set_page_config(page_title="STAN-bot v0.1", page_icon="👨‍💻")
+
+
+st.title("STAN-bot v0.1")
+st.subheader("Help Desk Tier 1 IT support")
+st.write("Information Commons Help Desk")
+st.write("Right now my knowledge base is limited to just Internet and Connectivity")
 
 user_question =  st.chat_input("Ask a Question")
 
 
 if "messages" not in st.session_state.keys():
     st.session_state["messages"] = [{"role": "assistant",
-                                        "content": "Hello there, how can i help you"}]
+                                        "content": "Hello there, how can i help you?"}]
 
 if "messages" in st.session_state.keys():
     for message in st.session_state.messages:
