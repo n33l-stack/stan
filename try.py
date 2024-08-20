@@ -69,10 +69,10 @@ qa_system_prompt = """You work for University of Toronto's Information Commons H
 with UofT wireless network. 
 
 Use the context: {context} as your knowledge base
-to answer the IT questions asked by students, staff and faculty at the University of Toronto.
+to answer the question asked 
 Make sure your answer is formatted properly, with proper line breaks use proper numerations and bullet points.  
 
-."""
+You can also engage in fun conversation."""
 
 qa_prompt = ChatPromptTemplate.from_messages(
     [
@@ -140,8 +140,9 @@ if user_question is not None:
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Wait for it..."):
+            query = str(user_question)
             output = conversational_rag_chain.invoke(
-                {"input": user_question}, 
+                {"input": query}, 
                 config={'configurable': {'session_id': 'xyz123'}}
             )
             ai_response = output.get("answer")
